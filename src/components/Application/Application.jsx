@@ -15,7 +15,6 @@ const Application = () => {
   console.log(user);
   const navigateTo = useNavigate();
 
-  // Function to handle file input changes
   const handleFileChange = (event) => {
     const resume = event.target.files[0];
     setResume(resume);
@@ -41,7 +40,7 @@ const Application = () => {
         {
           withCredentials: true,
           headers: {
-            "Content-Type": "multipart/form-data"
+            "Content-Type": "multipart/form-data",
           },
         }
       );
@@ -62,7 +61,6 @@ const Application = () => {
     navigateTo("/");
   }
 
-  
   return (
     <section className="application">
       <div className="container">
