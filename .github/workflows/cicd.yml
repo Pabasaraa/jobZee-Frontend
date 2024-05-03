@@ -28,9 +28,7 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_PRIVATE_KEY}}
           script: |
-            sudo apt-get update
-            sudo apt-get install -y docker.io
-            docker stop ctse-app || true
-            docker rm ctse-app || true
-            docker pull ${{ secrets.DOCKER_USERNAME }}/ctse-app:latest
-            docker run -d --name ctse-app -p 5173:5173 ${{ secrets.DOCKER_USERNAME }}/ctse-app:latest
+            sudo docker stop ctse-app || true
+            sudo docker rm ctse-app || true
+            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/ctse-app:latest
+            sudo docker run -d --name ctse-app -p 5173:5173 ${{ secrets.DOCKER_USERNAME }}/ctse-app:latest
