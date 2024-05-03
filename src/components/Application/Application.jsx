@@ -15,6 +15,7 @@ const Application = () => {
   console.log(user);
   const navigateTo = useNavigate();
 
+  // handle input changes
   const handleFileChange = (event) => {
     const resume = event.target.files[0];
     setResume(resume);

@@ -1,29 +1,34 @@
-name: CICD
+name: CI/CD Pipeline
 
 on:
   pull_request:
     branches: ["master"]
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout Source
         uses: actions/checkout@v3
+
       - name: Login to Docker Hub
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+
       - name: Build Docker Image
         run: docker build -t pabasaraa/ctse-app .
+
       - name: Publish image to docker hub
         run: docker push pabasaraa/ctse-app:latest
 
-  # deploy:
-  #   needs: build
-  #   runs-on: aws-ec2
-  #   steps:
-  #     - name: Pull image from docker hub
-  #       run: docker pull pabasaraa/ctse-app:latest
-  #     - name: Delete Old Container
-  #       run: docker rm -f reactContainer
-  #     - name: Run docker container
-  #       run: docker run -d -p 5173:5173 --name reactContainer pabasaraa/ctse-app
+      - name: Deploy to EC2 instance
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_PRIVATE_KEY}}
+          script: |
+            sudo docker stop ctse-app || true
+            sudo docker rm ctse-app || true
+            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/ctse-app:latest
+            sudo docker run -d --name ctse-app -p 80:80 ${{ secrets.DOCKER_USERNAME }}/ctse-app:latest

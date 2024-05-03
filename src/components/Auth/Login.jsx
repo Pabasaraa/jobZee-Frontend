@@ -22,7 +22,7 @@ const Login = () => {
         { email, password, role },
         {
           headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
           },
           withCredentials: true,
         }
@@ -52,7 +52,7 @@ const Login = () => {
           </div>
           <form>
             <div className="inputTag">
-              <label>Login As</label>
+              <label>Login as</label>
               <div>
                 <select value={role} onChange={(e) => setRole(e.target.value)}>
                   <option value="">Select Role</option>
