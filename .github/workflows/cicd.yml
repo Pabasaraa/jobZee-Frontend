@@ -31,4 +31,4 @@ jobs:
             sudo docker stop ctse-app || true
             sudo docker rm ctse-app || true
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/ctse-app:latest
-            sudo docker run -d --name ctse-app -p 5173:5173 ${{ secrets.DOCKER_USERNAME }}/ctse-app:latest
+            sudo docker run -d --name ctse-app -p 80:5173 ${{ secrets.DOCKER_USERNAME }}/ctse-app:latest
